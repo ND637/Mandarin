@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>У меня к тебе вопрос...</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 90%;
+            width: 350px;
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            color: #ff4d6d;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .gif-container {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            height: 60px;
+            align-items: center;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.1s ease, background-color 0.2s ease;
+            touch-action: manipulation;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        #yesBtn:active {
+            transform: scale(0.95);
+        }
+
+        #noBtn {
+            background-color: #f0f0f0;
+            color: #555;
+            position: absolute;
+            /* Начальное положение кнопки Нет справа */
+            right: 40px; 
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <div class="gif-container" id="emoji">🥺</div>
+        <h1 id="question">Будешь моей девушкой?</h1>
+        <div class="buttons">
+            <button id="yesBtn" onclick="sayYes()">Да</button>
+            <button id="noBtn" ontouchstart="moveButton()" onclick="moveButton()">Нет</button>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const question = document.getElementById('question');
+        const emoji = document.getElementById('emoji');
+        const container = document.getElementById('mainContainer');
+
+        // Функция, которая двигает кнопку "Нет" при попытке нажать
+        function moveButton() {
+            // Получаем размеры экрана с учетом отступов, чтобы кнопка не улетала за край
+            const padding = 20;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+            // Генерируем случайные координаты по всему экрану
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            // Переводим кнопку в фиксированное положение, чтобы она летала по всему экрану
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            
+            // Немного увеличиваем кнопку "Да" с каждым промахом, намекая на правильный выбор :)
+            const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+            if (currentSize < 40) { // Ограничим максимальный рост
+                yesBtn.style.fontSize = (currentSize + 2) + 'px';
+                yesBtn.style.padding = '15px ' + (currentSize * 2) + 'px';
+            }
+        }
+
+        // Функция для счастливого финала
+        function sayYes() {
+            // Убираем кнопку "Нет" совсем
+            noBtn.style.display = 'none';
+            yesBtn.style.display = 'none';
+            
+            // Меняем текст и оформление
+            question.innerHTML = 'Ура-а-а! С этого момента мы вместе! ❤️';
+            emoji.innerHTML = '🥰✨';
+            container.style.boxShadow = '0 10px 40px rgba(255, 77, 109, 0.6)';
+        }
+    </script>
+</body>
+</html>
