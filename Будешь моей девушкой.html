@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вопрос</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            transition: all 0.5s ease;
+        }
+
+        h1 { color: #ff4d6d; font-size: 1.5rem; text-align: center; margin-bottom: 20px; }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            height: 60px;
+            align-items: center;
+            position: relative;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+        }
+
+        #yesBtn { background-color: #ff4d6d; color: white; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4); }
+        #noBtn { background-color: #f0f0f0; color: #555; position: absolute; right: 40px; z-index: 10; }
+
+        /* Стили для письма */
+        .letter-content {
+            text-align: left;
+            color: #333;
+            line-height: 1.6;
+            font-size: 1rem;
+            max-height: 70vh; /* Чтобы письмо можно было скроллить, если оно длинное */
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        .letter-content p { margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <h1 id="question">Будешь моей девушкой?</h1>
+        <div class="buttons" id="btnGroup">
+            <button id="yesBtn" onclick="sayYes()">Да</button>
+            <button id="noBtn" ontouchstart="moveButton()" onclick="moveButton()">Нет</button>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const container = document.getElementById('mainContainer');
+        const btnGroup = document.getElementById('btnGroup');
+
+        function moveButton() {
+            const padding = 20;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            
+            const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+            if (currentSize < 40) {
+                yesBtn.style.fontSize = (currentSize + 2) + 'px';
+                yesBtn.style.padding = '15px ' + (currentSize * 2) + 'px';
+            }
+        }
+
+        function sayYes() {
+            // Удаляем кнопки
+            btnGroup.style.display = 'none';
+            
+            // Вставляем письмо
+            container.innerHTML = `
+                <div class="letter-content">
+                    <p>Если ты сейчас читаешь это, значит ты сказала мне самое важное слово — «да». 💗</p>
+                    <p>Честно… я даже не знаю, как описать всё, что чувствую сейчас. Кажется, сердце вот-вот выпрыгнет из груди. Я так долго представлял этот момент, так переживал, так надеялся, что именно сейчас ты читаешь эти строки уже как моя девушка.</p>
+                    <p>Помнишь 22 января 2026 года? Тогда я просто написал тебе первым. Если бы мне в тот день сказали, что спустя несколько месяцев ты станешь моей девушкой, я бы, наверное, просто не поверил. Но одно сообщение изменило очень многое в моей жизни.</p>
+                    <p>Мы так быстро стали близкими. Всего за пару месяцев мы уже говорили о любви, открывались друг другу, рассказывали то, что не рассказывали другим. С каждым днём я понимал, что ты становишься для меня всё важнее.</p>
+                    <p>Я полюбил в тебе абсолютно всё. Твою доброту, которая чувствуется в каждом слове. Твой смех и твои крики во время игр в звонке, которые всегда заставляют меня улыбаться. Твои красивые глаза, в которые хочется смотреть бесконечно. Твои губы, твою улыбку, твоё спокойствие. Мне безумно нравится, как ты умеешь поддерживать меня, понимать даже тогда, когда мне самому трудно объяснить свои чувства.</p>
+                    <p>Спасибо тебе за то, что принимаешь меня таким, какой я есть. Для меня это невероятно важно. Рядом с тобой мне не нужно притворяться кем-то другим. Я могу быть собой, и именно за это я ценю тебя ещё сильнее.</p>
+                    <p>Мне очень нравится то, какие у нас отношения. Они такие тёплые, спокойные и искренние. Мы не строим их на грубости, обзывательствах или постоянных ссорах. Наоборот, у нас так много заботы, нежности и уважения друг к другу. Конечно, у нас были трудности. Были моменты, когда было больно. Но даже они показали мне, насколько сильно я дорожу тобой и насколько сильно хочу, чтобы мы были вместе.</p>
+                    <p>Я знаю, что идеальных людей не существует, и идеальных отношений тоже. Но я обещаю всегда стараться быть для тебя человеком, рядом с которым ты будешь чувствовать себя любимой, защищённой и счастливой. Я хочу поддерживать тебя, радоваться твоим успехам, быть рядом в трудные моменты и каждый день напоминать тебе, как много ты для меня значишь.</p>
+                    <p>Я очень благодарен своему другу, который когда-то дал мне твой аккаунт. Тогда я даже представить не мог, что это приведёт меня к самому прекрасному человеку в моей жизни. И я очень рад, что мы с ним потратили целый день, придумывая этот сайт, потому что ты заслуживаешь особенного признания.</p>
+                    <p>Спасибо тебе за доверие. Спасибо за твою заботу. Спасибо за каждое сообщение, каждый звонок, каждую улыбку и каждую минуту, проведённую вместе.</p>
+                    <p>Теперь ты официально моя девушка. И, честно, это делает меня самым счастливым человеком.</p>
+                    <p>Я очень люблю тебя. И надеюсь, что это только начало нашей истории.💗😊</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
